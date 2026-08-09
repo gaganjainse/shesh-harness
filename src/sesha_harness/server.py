@@ -12,7 +12,7 @@ from .refine import (
 )
 from .state import Harness
 
-mcp = FastMCP("sesha-harness")
+mcp = FastMCP("shesha-harness")
 
 _harness: Harness | None = None
 

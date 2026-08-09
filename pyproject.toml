@@ -1,7 +1,7 @@
 [project]
-name = "sesha-harness"
+name = "shesha-harness"
 version = "0.1.0"
-description = "Sesha Mind: Continual Harness for safe, evidence-backed self-improvement"
+description = "Shesha Mind: Continual Harness for safe, evidence-backed self-improvement"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "GPL-3.0-or-later" }
@@ -12,7 +12,7 @@ dependencies = ["mcp[cli]>=1.0", "fastmcp>=0.1"]
 dev = ["pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
-sesha-harness-mcp = "sesha_harness.server:main"
+shesha-harness-mcp = "shesha_harness.server:main"
 
 [tool.uv]
 environments = ["sys_platform == 'linux'"]

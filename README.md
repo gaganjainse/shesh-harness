@@ -1,4 +1,4 @@
-# 🔁 sesha-harness
+# 🔁 shesha-harness
 
 **Continual Harness for safe self-improvement.**
 
@@ -14,7 +14,7 @@ Implements the Prime Agent `/refine` pattern with hard guardrails:
 
 - License: GPL-3.0
 - Layer: Mind
-- Part of: [Sesha ecosystem](https://github.com/gaganjainse/sesha-ecosystem)
+- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
 
 ## Why this exists
 
@@ -37,8 +37,8 @@ intentions and mannerisms without destabilizing itself.
 uv sync --extra dev
 uv run pytest -q          # 7 offline tests (no LLM needed)
 uv run ruff check .
-uv run sesha-harness-mcp
+uv run shesha-harness-mcp
 ```
 
-State lives under `~/.local/share/sesha/harness/` (`state.json`,
+State lives under `~/.local/share/shesha/harness/` (`state.json`,
 `refinements.jsonl`) — plain JSON, editable, versionable.
