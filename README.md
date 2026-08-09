@@ -1,5 +1,12 @@
-# 🔁 shesha-harness
+# shesha-harness
 
+**Continual Harness for self-improvement** — Evidence-backed refinements with rollback; base prompt immutable.
+
+- Layer: Mind (Mind)
+- License: GPL-3.0
+- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
+
+---
 **Continual Harness for safe self-improvement.**
 
 Implements the Prime Agent `/refine` pattern with hard guardrails:
