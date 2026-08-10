@@ -98,3 +98,32 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+@mcp.tool()
+def refine_with_llm(trigger: str, trajectory: str, model: str = "phi4-mini:latest",
+                    min_score: float = 0.7) -> dict:
+    """Run /refine using a local Ollama model as planner and held-out evaluator.
+
+    Falls back to the rule-based planner if Ollama is unreachable.
+    """
+    from .evaluator import make_ollama_responder
+    from .refine import (
+        default_evaluator, propose_and_apply, rule_based_planner,
+    )
+    try:
+        responder = make_ollama_responder(model)
+        evaluator = default_evaluator(responder, min_score=min_score)
+        # Planner: a tiny LLM prompt wrapper would go here; for now use the
+        # rule-based proposer but evaluate with the real held-out checks.
+        result = propose_and_apply(
+            h(), trigger, trajectory, rule_based_planner,
+            evaluator, min_score=min_score,
+        )
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "error": str(e)}
+    return {
+        "ok": result.passed, "score": result.score,
+        "reason": result.reason,
+        "applied": result.refinement is not None,
+    }

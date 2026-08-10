@@ -36,9 +36,11 @@ def propose_and_apply(
     trigger: str,
     trajectory: str,
     planner: Planner,
-    evaluator: Evaluator,
+    evaluator: Evaluator | None = None,
+    responder=None,
     *,
     min_score: float = 0.7,
+    checks=None,
 ) -> RefineResult:
     """Plan a refinement, evaluate it, and apply only if it passes."""
     proposal = planner(trajectory, _snapshot(harness))
@@ -50,6 +52,11 @@ def propose_and_apply(
     if kind == "skill" and target in {"safety-governance"}:
         return RefineResult(None, False, 0.0, "cannot refine safety skills")
 
+    # Build a default held-out evaluator if none provided.
+    if evaluator is None:
+        if responder is None:
+            return RefineResult(None, False, 0.0, "no evaluator or responder")
+        evaluator = default_evaluator(responder, checks=checks, min_score=min_score)
     # Evaluate before mutating persistent state.
     passed, score, reason = evaluator(proposal)
     if not passed or score < min_score:
@@ -101,3 +108,15 @@ def rule_based_planner(trajectory: str, _state: dict) -> dict:
             "reason": "explicit user preference observed",
         }
     return {"kind": "noop", "target": "", "after": "", "reason": "no improvement found"}
+
+
+def default_evaluator(
+    responder, checks=None, min_score=0.7,
+) -> Evaluator:
+    """Build an Evaluator around a responder using the held-out checks."""
+    from .evaluator import evaluate as _evaluate
+
+    def _eval(proposal: dict) -> tuple[bool, float, str]:
+        report = _evaluate(proposal, responder, checks, min_score=min_score)
+        return report.passed, report.score, report.reason
+    return _eval
