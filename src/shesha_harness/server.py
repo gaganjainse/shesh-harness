@@ -3,6 +3,11 @@ from __future__ import annotations
 
 from mcp.server.fastmcp import FastMCP
 
+try:
+    from shesha_audit.mcp_guard import GuardedMCP as _MCP
+except ImportError:
+    _MCP = FastMCP
+
 from .refine import (
     Evaluator,
     Planner,
@@ -12,7 +17,7 @@ from .refine import (
 )
 from .state import Harness
 
-mcp = FastMCP("shesha-harness")
+mcp = _MCP("shesha-harness")
 
 _harness: Harness | None = None
 
