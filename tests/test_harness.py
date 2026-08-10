@@ -8,15 +8,15 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from shesha_harness.refine import propose_and_apply, rule_based_planner  # noqa: E402
-from shesha_harness.server import (  # noqa: E402
+from shesh_harness.refine import propose_and_apply, rule_based_planner  # noqa: E402
+from shesh_harness.server import (  # noqa: E402
     add_memory,
     get_prompt_block,
     list_skills,
     refine,
     upsert_skill,
 )
-from shesha_harness.state import Harness  # noqa: E402
+from shesh_harness.state import Harness  # noqa: E402
 
 
 @pytest.fixture()
@@ -100,7 +100,7 @@ def test_revert_roundtrip(harness):
 
 
 def test_server_tools_use_harness(tmp_path, monkeypatch):
-    import shesha_harness.server as srv
+    import shesh_harness.server as srv
     monkeypatch.setattr(srv, "_harness", Harness(root=tmp_path))
     assert add_memory("prefers dark mode")["id"]
     assert upsert_skill("docs", "# docs")["id"]

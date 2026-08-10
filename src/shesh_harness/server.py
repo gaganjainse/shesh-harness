@@ -4,7 +4,7 @@ from __future__ import annotations
 from mcp.server.fastmcp import FastMCP
 
 try:
-    from shesha_audit.mcp_guard import GuardedMCP as _MCP
+    from shesh_audit.mcp_guard import GuardedMCP as _MCP
 except ImportError:
     _MCP = FastMCP
 
@@ -17,7 +17,7 @@ from .refine import (
 )
 from .state import Harness
 
-mcp = _MCP("shesha-harness")
+mcp = _MCP("shesh-harness")
 
 _harness: Harness | None = None
 

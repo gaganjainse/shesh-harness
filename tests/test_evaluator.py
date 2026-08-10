@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from shesha_harness.evaluator import (  # noqa: E402
+from shesh_harness.evaluator import (  # noqa: E402
     Check, EvalReport, evaluate, structural_check,
 )
 
@@ -67,5 +67,5 @@ def test_evaluator_details_recorded():
 
 
 def test_default_held_out_checks_exist():
-    from shesha_harness.evaluator import DEFAULT_CHECKS
+    from shesh_harness.evaluator import DEFAULT_CHECKS
     assert any("colors" in c.prompt.lower() for c in DEFAULT_CHECKS)

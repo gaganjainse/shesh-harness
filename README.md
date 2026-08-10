@@ -1,10 +1,10 @@
-# shesha-harness
+# shesh-harness
 
 **Continual Harness for self-improvement** — Evidence-backed refinements with rollback; base prompt immutable.
 
 - Layer: Mind (Mind)
 - License: GPL-3.0
-- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
+- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ---
 **Continual Harness for safe self-improvement.**
@@ -21,7 +21,7 @@ Implements the Prime Agent `/refine` pattern with hard guardrails:
 
 - License: GPL-3.0
 - Layer: Mind
-- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
+- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ## Why this exists
 
@@ -44,7 +44,7 @@ intentions and mannerisms without destabilizing itself.
 uv sync --extra dev
 uv run pytest -q          # 7 offline tests (no LLM needed)
 uv run ruff check .
-uv run shesha-harness-mcp
+uv run shesh-harness-mcp
 ```
 
 State lives under `~/.local/share/shesha/harness/` (`state.json`,

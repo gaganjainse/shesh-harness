@@ -1,4 +1,4 @@
-"""shesha-harness: Continual Harness for safe self-improvement.
+"""shesh-harness: Continual Harness for safe self-improvement.
 
 The immutable base system prompt is never modified. This component manages
 supplemental state the agent can CRUD through evidence-backed refinements:

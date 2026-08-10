@@ -10,7 +10,7 @@ scores the response. It also runs structural checks (valid JSON for skills/
 subagents, non-empty for prompt/memory) so a malformed proposal never ships.
 
 The model call is injected; tests use a deterministic fake, production wires
-it to Ollama via shesha-mind.
+it to Ollama via shesh-mind.
 """
 from __future__ import annotations
 
