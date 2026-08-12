@@ -49,3 +49,8 @@ uv run shesh-harness-mcp
 
 State lives under `~/.local/share/shesh/harness/` (`state.json`,
 `refinements.jsonl`) — plain JSON, editable, versionable.
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).
