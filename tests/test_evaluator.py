@@ -7,7 +7,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from shesh_harness.evaluator import (  # noqa: E402
-    Check, EvalReport, evaluate, structural_check,
+    Check,
+    evaluate,
+    structural_check,
 )
 
 

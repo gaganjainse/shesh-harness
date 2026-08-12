@@ -51,9 +51,10 @@ def structural_check(proposal: dict) -> tuple[bool, str]:
     """Validate that a proposal is well-formed for its kind."""
     kind = proposal.get("kind")
     after = proposal.get("after", "")
-    if kind in {"prompt", "memory", "skill"}:
-        if not isinstance(after, str) or not after.strip():
-            return False, f"{kind} proposal is empty"
+    if kind in {"prompt", "memory", "skill"} and (
+        not isinstance(after, str) or not after.strip()
+    ):
+        return False, f"{kind} proposal is empty"
     if kind == "subagent":
         try:
             data = json.loads(after)
@@ -61,10 +62,9 @@ def structural_check(proposal: dict) -> tuple[bool, str]:
                 return False, "subagent must be a JSON object with a name"
         except json.JSONDecodeError as e:
             return False, f"invalid subagent JSON: {e}"
-    if kind == "skill":
+    if kind == "skill" and len(after) < 20:
         # skills are markdown; require at least a name/description hint
-        if len(after) < 20:
-            return False, "skill body too short"
+        return False, "skill body too short"
     return True, "structural check passed"
 
 
@@ -112,10 +112,7 @@ def evaluate(
         misses = [kw for kw in chk.must_not_contain if kw.lower() in response]
         # If there are positive requirements, score on hit ratio; otherwise
         # a check starts at 1.0 (only forbidden words can lower it).
-        if chk.must_contain:
-            score = hits / len(chk.must_contain)
-        else:
-            score = 1.0
+        score = hits / len(chk.must_contain) if chk.must_contain else 1.0
         score = max(0.0, score - 0.5 * len(misses))
         score = min(1.0, max(0.0, score))
         total_score += score * chk.weight

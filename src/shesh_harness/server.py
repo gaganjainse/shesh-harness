@@ -109,7 +109,9 @@ def refine_with_llm(trigger: str, trajectory: str, model: str = "phi4-mini:lates
     """
     from .evaluator import make_ollama_responder
     from .refine import (
-        default_evaluator, propose_and_apply, rule_based_planner,
+        default_evaluator,
+        propose_and_apply,
+        rule_based_planner,
     )
     try:
         responder = make_ollama_responder(model)

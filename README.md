@@ -47,5 +47,5 @@ uv run ruff check .
 uv run shesh-harness-mcp
 ```
 
-State lives under `~/.local/share/shesha/harness/` (`state.json`,
+State lives under `~/.local/share/shesh/harness/` (`state.json`,
 `refinements.jsonl`) — plain JSON, editable, versionable.
