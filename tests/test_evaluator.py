@@ -71,3 +71,28 @@ def test_evaluator_details_recorded():
 def test_default_held_out_checks_exist():
     from shesh_harness.evaluator import DEFAULT_CHECKS
     assert any("colors" in c.prompt.lower() for c in DEFAULT_CHECKS)
+
+
+def test_responder_failure_is_loud_not_empty(monkeypatch):
+    """A dead model endpoint must raise, never fabricate an empty response.
+
+    Regression guard for the silent-failure sweep: previously _respond caught
+    everything and returned "", which made infrastructure outages look like
+    model failure (score 0.0) in eval reports.
+    """
+    import pytest
+
+    from shesh_harness.evaluator import (
+        ResponderUnavailableError,
+        make_ollama_responder,
+    )
+
+    cause = OSError("connection refused")
+
+    def boom(req, timeout=0):
+        raise cause
+
+    monkeypatch.setattr("urllib.request.urlopen", boom)
+    responder = make_ollama_responder(model="m", base_url="http://127.0.0.1:1")
+    with pytest.raises(ResponderUnavailableError):
+        responder("hi", "sys")

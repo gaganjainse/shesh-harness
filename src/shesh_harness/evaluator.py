@@ -22,6 +22,19 @@ from dataclasses import dataclass, field
 Responder = Callable[[str, str], str]
 
 
+class ResponderUnavailableError(RuntimeError):
+    """The model endpoint could not produce a response.
+
+    Raised instead of returning a fake empty string: an evaluation whose
+    model is unreachable must fail loudly. Silently scoring an empty
+    response would report infrastructure failure as model failure.
+    """
+
+    def __init__(self, model: str, cause: BaseException) -> None:
+        self.model = model
+        super().__init__(f"model {model!r} unavailable: {cause}")
+
+
 @dataclass
 class Check:
     prompt: str
@@ -144,6 +157,8 @@ def make_ollama_responder(model: str = "phi4-mini:latest",
         try:
             with urllib.request.urlopen(req, timeout=120) as r:
                 return json.loads(r.read().decode()).get("response", "")
-        except Exception:
-            return ""
+        except (OSError, ValueError) as e:
+            # URLError/HTTPError/TimeoutError are OSErrors; JSON/unicode
+            # problems are ValueErrors. Never fabricate an empty response.
+            raise ResponderUnavailableError(model, e) from e
     return _respond
