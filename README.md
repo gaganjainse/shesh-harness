@@ -3,7 +3,7 @@
 **Continual Harness for self-improvement** — Evidence-backed refinements with rollback; base prompt immutable.
 
 - Layer: Mind (Mind)
-- License: GPL-3.0
+- License: GPL-3.0-or-later
 - Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ---
@@ -19,7 +19,7 @@ Implements the Prime Agent `/refine` pattern with hard guardrails:
 - Refinements are evaluated before applying (pluggable planner + evaluator;
   production wires in a local LLM + `llm-eval-harness`).
 
-- License: GPL-3.0
+- License: GPL-3.0-or-later
 - Layer: Mind
 - Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
