@@ -39,6 +39,10 @@ uv run ruff check .
 Every refinement is append-only with trigger, before/after, score, and outcome;
 any change can be **reverted by ID**.
 
+
+> **Reproducible install:** `uv.lock` pins the full dependency tree. Install with
+> `uv sync --frozen` (or `uv pip install -r <(uv export --frozen)`) for a locked build.
+
 ## Status
 
 Component CI is green (reusable ecosystem pipeline). Security posture and
