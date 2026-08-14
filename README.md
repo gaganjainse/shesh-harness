@@ -1,59 +1,54 @@
-# shesh-harness
+# 🔁 shesh-harness
 
-**Continual Harness for self-improvement** — Evidence-backed refinements with rollback; base prompt immutable.
+> **Continual Harness for safe self-improvement.** Implements the Prime Agent
+> `/refine` pattern with hard guardrails: an immutable base prompt, evidence-backed
+> edits, evaluation before apply, and rollback by ID.
 
-- Layer: Mind (Mind)
-- License: GPL-3.0-or-later
-- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python) ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue?style=for-the-badge) ![Tests](https://img.shields.io/badge/Tests-23-success?style=for-the-badge) ![CI](https://github.com/gaganjainse/shesh-harness/actions/workflows/ci.yml.yml/badge.svg)
+
+- **License:** GPL-3.0-or-later
+- **Owner:** Gagan Jain ([@gaganjainse](https://github.com/gaganjainse))
+- **Layer:** Mind (self-improvement)
+- **Part of:** [shesh-ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ---
-**Continual Harness for safe self-improvement.**
 
-Implements the Prime Agent `/refine` pattern with hard guardrails:
-
-- The **base system prompt and safety skills are immutable**.
-- Supplemental state (prompt notes, memories, skills, subagent specs) is a CRUD
-  surface the agent can refine through small, evidence-backed edits.
-- Every refinement is append-only with trigger, before/after, score, and outcome;
-  any change can be **reverted by ID**.
-- Refinements are evaluated before applying (pluggable planner + evaluator;
-  production wires in a local LLM + `llm-eval-harness`).
-
-- License: GPL-3.0-or-later
-- Layer: Mind
-- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
-
-## Why this exists
+## Why this repo exists
 
 A self-improving agent that can edit its own prompt without guardrails will
-overfit metrics (the Prime "Factorio cheating" result). This harness keeps the
-base prompt immutable, requires evidence/evaluation, supports rollback, and
-promotes changes only after they pass tests — so the system can learn your
-intentions and mannerisms without destabilizing itself.
+overfit metrics. This harness keeps the base prompt immutable, requires evidence
+and evaluation, supports rollback, and promotes changes only after they pass
+tests — so the system can learn your intentions without destabilizing itself.
+
+---
+
+## Quick start
+
+```bash
+uv sync --extra dev
+uv run pytest -q        # 23 tests
+uv run ruff check .
+```
 
 ## Tools (MCP, stdio)
 
 - `get_prompt_block()` — supplemental prompt + memories for the turn
 - `add_memory(text)` / `upsert_skill(name, body)` / `list_skills()`
 - `refine(trigger, trajectory)` — propose, evaluate, and apply a small change
-- `list_refinements()` / `revert_refinement(id)`
 
-## Develop
+Every refinement is append-only with trigger, before/after, score, and outcome;
+any change can be **reverted by ID**.
 
-```bash
-uv sync --extra dev
-uv run pytest -q          # 7 offline tests (no LLM needed)
-uv run ruff check .
-uv run shesh-harness-mcp
-```
+## Status
 
-State lives under `~/.local/share/shesh/harness/` (`state.json`,
-`refinements.jsonl`) — plain JSON, editable, versionable.
+Component CI is green (reusable ecosystem pipeline). Security posture and
+vulnerability reporting: [SECURITY.md](SECURITY.md).
 
-## Security
+## Documentation index
 
-Security posture and vulnerability reporting: [canonical ecosystem security
-policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).
-## 📚 Docs
+- **Part of:** [shesh-ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
+- **Compiled reading:** [shesh-docs](https://github.com/gaganjainse/shesh-docs)
 
-Fleet-wide reading compilation: [shesh-docs](https://github.com/gaganjainse/shesh-docs).
+## License
+
+GPL-3.0-or-later — see [LICENSE](LICENSE).
