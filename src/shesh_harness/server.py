@@ -17,7 +17,7 @@ mcp = _MCP("shesh-harness")
 _harness: Harness | None = None
 
 
-def h() -> Harness:
+def _get_harness() -> Harness:
     global _harness
     if _harness is None:
         _harness = Harness()
@@ -27,26 +27,26 @@ def h() -> Harness:
 @mcp.tool()
 def get_prompt_block() -> str:
     """Return the supplemental prompt + memories to add to the model context."""
-    return h().prompt_block()
+    return _get_harness().prompt_block()
 
 
 @mcp.tool()
 def add_memory(memory: str) -> dict:
     """Add a durable memory to the harness."""
-    r = h().add_memory(memory, trigger="agent")
+    r = _get_harness().add_memory(memory, trigger="agent")
     return {"id": r.id, "kind": r.kind}
 
 
 @mcp.tool()
 def upsert_skill(name: str, body: str) -> dict:
     """Create or update a reusable skill (Markdown)."""
-    r = h().upsert_skill(name, body, trigger="agent")
+    r = _get_harness().upsert_skill(name, body, trigger="agent")
     return {"id": r.id, "target": r.target}
 
 
 @mcp.tool()
 def list_skills() -> list[str]:
-    return sorted(h().state.skills)
+    return sorted(_get_harness().state.skills)
 
 
 @mcp.tool()
@@ -54,13 +54,13 @@ def list_refinements(limit: int = 20) -> list[dict]:
     return [
         {"id": r.id, "kind": r.kind, "target": r.target,
          "outcome": r.outcome, "score": r.score, "ts": r.ts}
-        for r in h().refinements[-limit:]
+        for r in _get_harness().refinements[-limit:]
     ]
 
 
 @mcp.tool()
 def revert_refinement(ref_id: str) -> dict:
-    r = h().revert(ref_id)
+    r = _get_harness().revert(ref_id)
     return {"ok": r is not None, "id": ref_id}
 
 
@@ -78,7 +78,7 @@ def refine(trigger: str, trajectory: str, min_score: float = 0.7) -> dict:
 
     evaluator: Evaluator = always_pass
     result: RefineResult = propose_and_apply(
-        h(), trigger, trajectory, planner, evaluator, min_score=min_score)
+        _get_harness(), trigger, trajectory, planner, evaluator, min_score=min_score)
     return {
         "applied": result.passed,
         "score": result.score,
@@ -106,7 +106,7 @@ def refine_with_llm(trigger: str, trajectory: str, model: str = "phi4-mini:lates
         # Planner: a tiny LLM prompt wrapper would go here; for now use the
         # rule-based proposer but evaluate with the real held-out checks.
         result = propose_and_apply(
-            h(), trigger, trajectory, rule_based_planner,
+            _get_harness(), trigger, trajectory, rule_based_planner,
             evaluator, min_score=min_score,
         )
     except Exception as e:  # noqa: BLE001

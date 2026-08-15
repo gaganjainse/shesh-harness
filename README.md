@@ -4,7 +4,7 @@
 > `/refine` pattern with hard guardrails: an immutable base prompt, evidence-backed
 > edits, evaluation before apply, and rollback by ID.
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python) ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue) ![Tests](https://img.shields.io/badge/Tests-23-success) ![CI](https://github.com/gaganjainse/shesh-harness/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python) ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue) ![Tests](https://img.shields.io/badge/Tests-28-success) ![CI](https://github.com/gaganjainse/shesh-harness/actions/workflows/ci.yml/badge.svg)
 
 - **License:** GPL-3.0-or-later
 - **Owner:** Gagan Jain ([@gaganjainse](https://github.com/gaganjainse))
@@ -26,7 +26,7 @@ tests — so the system can learn your intentions without destabilizing itself.
 
 ```bash
 uv sync --extra dev
-uv run pytest -q        # 23 tests
+uv run pytest -q        # 28 tests
 uv run ruff check .
 ```
 
