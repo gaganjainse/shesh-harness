@@ -1,4 +1,4 @@
-# 🔁 shesh-harness
+# shesh-harness
 
 > **Continual Harness for safe self-improvement.** Implements the Prime Agent
 > `/refine` pattern with hard guardrails: an immutable base prompt, evidence-backed
@@ -38,7 +38,6 @@ uv run ruff check .
 
 Every refinement is append-only with trigger, before/after, score, and outcome;
 any change can be **reverted by ID**.
-
 
 > **Reproducible install:** `uv.lock` pins the full dependency tree. Install with
 > `uv sync --frozen` (or `uv pip install -r <(uv export --frozen)`) for a locked build.
