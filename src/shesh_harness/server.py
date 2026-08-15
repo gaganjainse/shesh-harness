@@ -87,14 +87,6 @@ def refine(trigger: str, trajectory: str, min_score: float = 0.7) -> dict:
     }
 
 
-def main() -> None:
-    mcp.run(transport="stdio")
-
-
-if __name__ == "__main__":
-    main()
-
-
 @mcp.tool()
 def refine_with_llm(trigger: str, trajectory: str, model: str = "phi4-mini:latest",
                     min_score: float = 0.7) -> dict:
@@ -124,3 +116,11 @@ def refine_with_llm(trigger: str, trajectory: str, model: str = "phi4-mini:lates
         "reason": result.reason,
         "applied": result.refinement is not None,
     }
+
+
+def main() -> None:
+    mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    main()
