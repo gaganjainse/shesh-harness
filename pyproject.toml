@@ -1,7 +1,7 @@
 [project]
 name = "shesh-harness"
 version = "0.1.0"
-description = "Shesh Mind: Continual Harness for safe, evidence-backed self-improvement"
+description = "Shesh Harness: Continual Harness for safe, evidence-backed self-improvement"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "GPL-3.0-or-later" }
