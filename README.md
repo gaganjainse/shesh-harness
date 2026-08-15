@@ -26,7 +26,7 @@ tests — so the system can learn your intentions without destabilizing itself.
 
 ```bash
 uv sync --extra dev
-uv run pytest -q        # 28 tests
+uv run pytest -q        # the test suite
 uv run ruff check .
 ```
 
