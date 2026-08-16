@@ -51,6 +51,8 @@ def list_skills() -> list[str]:
 
 @mcp.tool()
 def list_refinements(limit: int = 20) -> list[dict]:
+    if limit < 0:
+        return []
     return [
         {"id": r.id, "kind": r.kind, "target": r.target,
          "outcome": r.outcome, "score": r.score, "ts": r.ts}
@@ -66,19 +68,24 @@ def revert_refinement(ref_id: str) -> dict:
 
 @mcp.tool()
 def refine(trigger: str, trajectory: str, min_score: float = 0.7) -> dict:
-    """Propose and, if it passes eval, apply a small evidence-backed refinement."""
+    """Propose a refinement, but never auto-approve without a real evaluator.
 
-    # Production: replace planner/evaluator with LLM + llm-eval-harness.
+    The previous implementation used an ``always_pass`` evaluator that assigned
+    score 0.9 to every non-noop proposal and immediately mutated persistent
+    harness state. That contradicted the module's evidence-backed refinement
+    contract. The non-LLM tool now remains proposal-safe; real promotion goes
+    through ``refine_with_llm`` (or an injected evaluator in tests).
+    """
     planner: Planner = rule_based_planner
-
-    def always_pass(proposal: dict) -> tuple[bool, float, str]:
-        if proposal.get("kind") == "noop":
-            return False, 0.0, "no proposal"
-        return True, 0.9, "rule-based proposal accepted"
-
-    evaluator: Evaluator = always_pass
     result: RefineResult = propose_and_apply(
-        _get_harness(), trigger, trajectory, planner, evaluator, min_score=min_score)
+        _get_harness(),
+        trigger,
+        trajectory,
+        planner,
+        evaluator=None,
+        responder=None,
+        min_score=min_score,
+    )
     return {
         "applied": result.passed,
         "score": result.score,
@@ -103,8 +110,6 @@ def refine_with_llm(trigger: str, trajectory: str, model: str = "phi4-mini:lates
     try:
         responder = make_ollama_responder(model)
         evaluator = default_evaluator(responder, min_score=min_score)
-        # Planner: a tiny LLM prompt wrapper would go here; for now use the
-        # rule-based proposer but evaluate with the real held-out checks.
         result = propose_and_apply(
             _get_harness(), trigger, trajectory, rule_based_planner,
             evaluator, min_score=min_score,
