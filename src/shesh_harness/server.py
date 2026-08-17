@@ -71,14 +71,11 @@ def refine(trigger: str, trajectory: str, min_score: float = 0.7) -> dict:
     # Production: replace planner/evaluator with LLM + llm-eval-harness.
     planner: Planner = rule_based_planner
 
-    def always_pass(proposal: dict) -> tuple[bool, float, str]:
-        if proposal.get("kind") == "noop":
-            return False, 0.0, "no proposal"
-        return True, 0.9, "rule-based proposal accepted"
-
-    evaluator: Evaluator = always_pass
+    # Without an explicit evaluator/responder, refinement must be a dry no-op.
+    # The public tool must never self-approve persistent state changes.
     result: RefineResult = propose_and_apply(
-        _get_harness(), trigger, trajectory, planner, evaluator, min_score=min_score)
+        _get_harness(), trigger, trajectory, planner, evaluator=None, responder=None,
+        min_score=min_score)
     return {
         "applied": result.passed,
         "score": result.score,
